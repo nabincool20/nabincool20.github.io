@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nabin Acharya — CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #3b5bdb;
+      --accent3: #7c3aed;
+      --green: #059669;
+      --text: #1a1a2e;
+      --muted: #5a6278;
+      --border: #dde2ef;
+      --font: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: #f4f6fb;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* PRINT TOOLBAR — hidden when printing */
+    .print-bar {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b5bdb 50%, #7c3aed 100%);
+      padding: 0.9rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .print-bar-left {
+      font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,0.7);
+    }
+    .print-bar-left span { color: #fff; font-weight: 500; }
+    .print-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--accent);
+      border: none; border-radius: 6px;
+      padding: 0.5rem 1.2rem;
+      font-size: 13px; font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .print-btn:hover { background: #eef2ff; }
+    .print-btn svg { flex-shrink: 0; }
+
+    /* CV PAPER */
+    .cv-page {
+      max-width: 760px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* CV HEADER */
+    .cv-header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b5bdb 50%, #7c3aed 100%);
+      padding: 2.5rem 2.5rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    .cv-header::before {
+      content: '';
+      position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      top: -100px; right: -80px; pointer-events: none;
+    }
+    .cv-header-inner { position: relative; z-index: 1; }
+    .cv-name {
+      font-size: 2rem; font-weight: 600;
+      color: #fff; letter-spacing: -0.03em;
+      margin-bottom: 0.3rem;
+    }
+    .cv-role {
+      font-size: 14px; font-family: var(--mono);
+      color: rgba(255,255,255,0.72);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .cv-contacts {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+    }
+    .cv-contact-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+    .cv-contact-item svg { opacity: 0.7; flex-shrink: 0; }
+
+    /* CV BODY */
+    .cv-body { padding: 2rem 2.5rem; }
+
+    /* SECTION */
+    .cv-section { margin-bottom: 2rem; }
+    .cv-section:last-child { margin-bottom: 0; }
+    .cv-section-title {
+      font-size: 11px; font-family: var(--mono);
+      font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ABOUT */
+    .cv-about { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* SKILLS */
+    .cv-skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem;
+    }
+    .cv-skill-group { }
+    .cv-skill-group-title {
+      font-size: 12px; font-weight: 500; color: var(--text);
+      margin-bottom: 4px;
+    }
+    .cv-skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .cv-tag {
+      font-size: 10px; font-family: var(--mono);
+      padding: 2px 7px; border-radius: 4px;
+      background: #eef2ff; border: 1px solid #c7d2fe;
+      color: var(--accent);
+    }
+
+    /* EXPERIENCE */
+    .cv-exp-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .cv-exp-item { display: grid; grid-template-columns: 110px 1fr; gap: 1rem; }
+    .cv-exp-date {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted); padding-top: 2px; line-height: 1.4;
+    }
+    .cv-exp-role { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .cv-exp-company { font-size: 12px; color: var(--accent3); margin-bottom: 5px; }
+    .cv-exp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* PROJECTS */
+    .cv-projects-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .cv-project-item { }
+    .cv-project-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .cv-project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* RESEARCH */
+    .cv-research-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .cv-research-item { }
+    .cv-research-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .cv-research-meta { font-family: var(--mono); font-size: 11px; color: var(--green); margin-bottom: 4px; }
+    .cv-research-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* PRINT STYLES */
+    @media print {
+      @page { margin: 1.5cm; size: A4; }
+
+      body { background: #fff; font-size: 13px; }
+
+      .print-bar { display: none !important; }
+
+      .cv-page {
+        margin: 0; border-radius: 0;
+        border: none; box-shadow: none;
+        max-width: 100%;
+      }
+
+      .cv-header {
+        /* keep the gradient on print for modern browsers, fallback to solid */
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 1.5rem 2rem 1.2rem;
+      }
+
+      .cv-body { padding: 1.5rem 2rem; }
+
+      .cv-section { margin-bottom: 1.4rem; page-break-inside: avoid; }
+
+      .cv-exp-item { page-break-inside: avoid; }
+
+      a { color: inherit; text-decoration: none; }
+    }
+
+    @media (max-width: 600px) {
+      .cv-body { padding: 1.5rem; }
+      .cv-header { padding: 1.5rem; }
+      .cv-skills-grid { grid-template-columns: 1fr 1fr; }
+      .cv-exp-item { grid-template-columns: 1fr; gap: 0.2rem; }
+      .print-bar { flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRINT TOOLBAR -->
+  <div class="print-bar">
+    <div class="print-bar-left">
+      <span>Nabin Paudel</span> · Curriculum Vitae
+    </div>
+    <button class="print-btn" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <!-- CV PAPER -->
+  <div class="cv-page">
+
+    <!-- HEADER -->
+    <div class="cv-header">
+      <div class="cv-header-inner">
+        <p class="cv-name">Nabin Acharya</p>
+        <p class="cv-role">IT Support Specialist · NewZealand</p>
+        <div class="cv-contacts">
+          <a href="mailto:your@email.com" class="cv-contact-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,14 22,4"/></svg>
+            nabinacharyanz@gmail.com
+          </a>
+          <a href="tel:+64XXXXXXXXX" class="cv-contact-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.61 4.5 2 2 0 0 1 3.59 2.32h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +64 22 320 4396
+          </a>
+          <a href="https://www.linkedin.com/in/nabincool20/" class="cv-contact-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><line x1="8" y1="11" x2="8" y2="17"/><line x1="8" y1="7" x2="8" y2="8"/><path d="M12 17v-6M16 17v-4a2 2 0 0 0-4 0"/></svg>
+            https://www.linkedin.com/in/nabincool20/
+          </a>
+          <!-- <a href="https://github.com/YOUR_HANDLE" class="cv-contact-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            github.com/YOUR_HANDLE
+          </a> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="cv-body">
+
+      <!-- ABOUT -->
+      <div class="cv-section">
+        <p class="cv-section-title">Profile</p>
+        <p class="cv-about">
+          IT support specialist with hands-on experience troubleshooting hardware, software, and network issues in fast-paced environments. Skilled at turning frustrating technical problems into simple solutions. Based in Auckland and actively seeking IT support opportunities with local companies.
+        </p>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="cv-section">
+        <p class="cv-section-title">Skills</p>
+        <div class="cv-skills-grid">
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Operating Systems</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">Windows 10/11</span>
+              <span class="cv-tag">macOS</span>
+              <span class="cv-tag">Linux</span>
+            </div>
+          </div>
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Networking</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">TCP/IP</span>
+              <span class="cv-tag">DNS</span>
+              <span class="cv-tag">DHCP</span>
+              <span class="cv-tag">VPN</span>
+            </div>
+          </div>
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Hardware</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">PC assembly</span>
+              <span class="cv-tag">Printers</span>
+              <span class="cv-tag">Peripherals</span>
+            </div>
+          </div>
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Software &amp; Tools</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">Active Directory</span>
+              <span class="cv-tag">Microsoft 365</span>
+              <span class="cv-tag">ServiceNow</span>
+            </div>
+          </div>
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Cloud &amp; Remote</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">Azure AD</span>
+              <span class="cv-tag">Remote Desktop</span>
+              <span class="cv-tag">TeamViewer</span>
+            </div>
+          </div>
+          <div class="cv-skill-group">
+            <p class="cv-skill-group-title">Soft Skills</p>
+            <div class="cv-skill-tags">
+              <span class="cv-tag">Communication</span>
+              <span class="cv-tag">Problem-solving</span>
+              <span class="cv-tag">Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <!-- <div class="cv-section">
+        <p class="cv-section-title">Experience</p>
+        <div class="cv-exp-list">
+          <div class="cv-exp-item">
+            <span class="cv-exp-date">2023 — Present</span>
+            <div>
+              <p class="cv-exp-role">IT Support Technician</p>
+              <p class="cv-exp-company">Company Name, Auckland</p>
+              <p class="cv-exp-desc">Provided first and second level support for 100+ end users. Managed hardware provisioning, software installation, and account administration in Active Directory and Microsoft 365.</p>
+            </div>
+          </div>
+          <div class="cv-exp-item">
+            <span class="cv-exp-date">2021 — 2023</span>
+            <div>
+              <p class="cv-exp-role">IT Help Desk Assistant</p>
+              <p class="cv-exp-company">Company Name, Auckland</p>
+              <p class="cv-exp-desc">Handled inbound support requests via phone, email, and in-person. Resolved hardware, software, and connectivity issues within agreed SLA timeframes.</p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- PROJECTS -->
+      <!-- <div class="cv-section">
+        <p class="cv-section-title">Projects</p>
+        <div class="cv-projects-list">
+          <div class="cv-project-item">
+            <p class="cv-project-name">Home Lab Network Setup</p>
+            <p class="cv-project-desc">Built a home lab environment with VLANs, a pfSense firewall, and a managed switch to practice enterprise networking concepts.</p>
+          </div>
+          <div class="cv-project-item">
+            <p class="cv-project-name">Helpdesk Ticketing System</p>
+            <p class="cv-project-desc">Configured and customised an open-source helpdesk platform (osTicket) for a small organisation to streamline IT request management.</p>
+          </div>
+          <div class="cv-project-item">
+            <p class="cv-project-name">IT Documentation Wiki</p>
+            <p class="cv-project-desc">Created an internal knowledge base documenting common troubleshooting steps, network diagrams, and onboarding procedures.</p>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- RESEARCH -->
+      <div class="cv-section">
+        <p class="cv-section-title">Research &amp; Publications</p>
+        <div class="cv-research-list">
+          <div class="cv-research-item">
+            <p class="cv-research-title">Glaucoma Diagnosis through AI-Generated Insights: A Dual Modality Perspective - OCT vs Fundus</p>
+            <p class="cv-research-meta">Capstone Project · Yoobee College</p>
+            <p class="cv-research-desc">Glaucoma is a progressive optic nerve disease and a leading cause of blindness worldwide. Early and accurate diagnosis is critical to preventing 
+              vision loss. Recent advances in AI, deep learning, and generative models have significantly improved automated glaucoma detection through retinal imaging. This 
+              review examines current trends and future directions in AI-driven glaucoma diagnosis, with a focus on multimodal imaging using fundus photography and Optical 
+              Coherence Tomography (OCT). It highlights limitations of existing models, explores generative AI techniques, and discusses how combining fundus and OCT imaging can 
+              boost diagnostic accuracy. Key challenges including clinical translation, data limitations, and model interpretability are addressed, along with future pathways 
+              toward more robust, explainable, and equitable AI in ophthalmology.</p>
+          </div>
+          <div class="cv-research-item">
+            <p class="cv-research-title">ADOPTION OF DATA ANALYTICS TOOLS FOR DECISION
+MAKING OF RETAIL BUSINESS IN NEPAL</p>
+            <p class="cv-research-meta">Thesis</p>
+            <p class="cv-research-desc">This research study sheds light on the evolving landscape of decisionmaking in the retail sector, particularly within the context of the dynamic and
+competitive environment of e-commerce in Nepal. The insights gained from this study
+provide valuable information for retailers, policymakers and industry stakeholders
+looking to harness the potential of data analytics tools to drive effective decisionmaking processes in the retail business. The findings underscore the importance of
+embracing online analytical processing and advanced analytics while also suggesting
+that further exploration is needed to unlock the full potential of data warehousing and
+data marts in the retail sector.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
